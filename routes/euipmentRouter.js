@@ -3,7 +3,7 @@ const router = new Router()
 const equipmentController = require('../controllers/euipmentController');
 const checkRole = require('../middleware/checkRoleMiddleware')
 
-router.post('/', checkRole('ADMIN'), equipmentController.create)
+router.post('/', equipmentController.create)
 router.get('/', equipmentController.getAll)
 router.get('/:id', equipmentController.getOne)
 router.put('/:id', checkRole('ADMIN'), equipmentController.updateOne)

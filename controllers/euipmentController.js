@@ -1,11 +1,21 @@
-const { Equipment } = require('../models/models')
+const { Equipment, Alerts } = require('../models/models')
 const ApiError = require('../error/ApiError');
 
 class DeviceController {
   async create(req, res, next) {
     try {
-      const { name, status, installationDate, typeId, brandId, userId, info } = req.body;
+      const { name, status, installationDate, typeId, brandId, userId } = req.body;
       const equipment = await Equipment.create({ name, status, installationDate, typeId, brandId, userId });
+
+      if (!status) { 
+        await Alerts.create({
+          description: 'Equipment status is false at creation',
+          timestamp: new Date(),
+          equipmentId: equipment.id,
+          userId: userId
+        });
+      }
+
       return res.status(201).json(equipment);
     } catch (e) {
       next(ApiError.badRequest(e.message))
