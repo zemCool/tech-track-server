@@ -1,4 +1,3 @@
-const path = require('path');
 const { Equipment } = require('../models/models')
 const ApiError = require('../error/ApiError');
 
